@@ -1,14 +1,27 @@
+
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle icon-only>
+      <ion-icon name='menu'></ion-icon>
+    </button>
     <ion-title>
-      Ionic Blank
+      {{cartlength}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+<ion-content padding class="card-background-page">
+<ion-list class="itemlist">
+    <ion-card  *ngFor="let item of items; let i=index" class="ion-card">
+        <img src="assets/imgs/images.jpeg" class="imgblock"/>
+        <ion-card-content>
+            <div class="card-title">{{item.itemname}}</div>
+            <button ion-button block (click)="changeCart(i)" class="card-subtitle" >{{cartflag.get(item.itemname)}}</button>
+        </ion-card-content>
+    </ion-card>
+
+  </ion-list>
+
+
 </ion-content>
