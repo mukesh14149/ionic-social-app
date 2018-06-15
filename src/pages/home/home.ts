@@ -19,12 +19,13 @@ export class HomePage {
   cartflag = new Map();
   cartlength = 0;
   constructor(private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController) {
-  
+
     this.getItems();
     this.dataprovider.getCart().then((cart) => {
       this.cart = cart
       console.log("Here is Cart");
       console.log(this.cart);
+      if(cart!=null)
       this.cartlength = this.cart.length;
     //  console.log(this.cartflag.length+"ssss"+this.cart.length);
       this.updatecartflag();

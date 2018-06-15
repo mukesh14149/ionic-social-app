@@ -25,7 +25,7 @@ export class MyApp {
 
 
   addTempItems(){
-    this.dataprovider.addItems({ itemname:"item3", imgsrc:"img3"});
+    //this.dataprovider.addItems({ itemname:"item5", imgsrc:"img5"});
   }
 
   OnProfile(){

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { DataProvider } from '../../providers/data/data';
 
 /**
  * Generated class for the ProfilePage page.
@@ -15,8 +16,17 @@ import { HomePage } from '../home/home';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+  currentuser = {
+    username:"",
+    mobile:999999999
+  };
+  constructor(private dataprovider:DataProvider, public navCtrl: NavController, private menu:MenuController) {
+    this.dataprovider.getcurrentuser().then((currentuser) => {
+      this.currentuser = currentuser;
+      console.log(this.currentuser);
 
-  constructor(public navCtrl: NavController, private menu:MenuController) {
+
+    });
   }
 
   ionViewDidLoad() {
