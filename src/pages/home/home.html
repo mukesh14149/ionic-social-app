@@ -20,7 +20,12 @@
         <img src="assets/imgs/images.jpeg" class="imgblock"/>
         <ion-card-content>
             <div class="card-title">{{item.itemname}}</div>
-            <button ion-button block (click)="changeCart(i)" class="card-subtitle" >{{cartflag.get(item.itemname)}}</button>
+          <div *ngIf="cartflag.get(item.itemname)==true">
+            <button ion-button block (click)="changeCart(i)" class="card-subtitle" >Remove from cart</button>
+          </div>
+          <div *ngIf="cartflag.get(item.itemname)==false">
+            <button ion-button block (click)="changeCart(i)" class="card-subtitle" >Add to cart</button>
+          </div>
         </ion-card-content>
     </ion-card>
 

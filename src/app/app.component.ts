@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { WelcomePage } from '../pages/welcome/welcome'
 import { DataProvider } from '../providers/data/data';
 import { ProfilePage } from '../pages/profile/profile';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -25,7 +26,12 @@ export class MyApp {
 
 
   addTempItems(){
-    //this.dataprovider.addItems({ itemname:"item5", imgsrc:"img5"});
+    this.dataprovider.addItems({ itemname:"item1", imgsrc:"img1"});
+    this.dataprovider.addItems({ itemname:"item2", imgsrc:"img2"});
+    this.dataprovider.addItems({ itemname:"item3", imgsrc:"img3"});
+    this.dataprovider.addItems({ itemname:"item4", imgsrc:"img4"});
+    this.dataprovider.addItems({ itemname:"item5", imgsrc:"img5"});
+    this.nav.popToRoot();
   }
 
   OnProfile(){
@@ -36,9 +42,9 @@ export class MyApp {
   OnLogout(){
     console.log("In onlogout");
     this.dataprovider.logout();
-    this.rootPage = WelcomePage;
-    this.nav.popToRoot();
-    //this.nav.push(WelcomePage);
+  //  this.rootPage = WelcomePage;
+    //this.nav.popToRoot();
+    this.nav.push(WelcomePage);
   }
 
 

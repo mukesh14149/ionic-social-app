@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../../app/model/user';
 import { Item } from '../../app/model/item';
@@ -15,7 +14,11 @@ export class DataProvider {
   private allusers:User[] = [];
   private items:Item[] = [];
   private cart:Item[] = [];
-
+  private currentuser:User = {
+    username: "",
+    password:"",
+    mobile : 33
+  };
 
   constructor(private storage: Storage){
     console.log("DataProvider Constructor called");
@@ -24,19 +27,33 @@ export class DataProvider {
       console.log('alluser in constructor', this.allusers);
 
     });
-
-    this.storage.get('cart').then((cart) => {
-      this.cart = cart == null ? [] : cart;
-      console.log('cart in constructor', this.cart);
-
-    });
-
     this.storage.get('items').then((items) => {
       this.items = items == null ? [] : items;
       console.log('items in constructor', this.items);
 
     });
 
+  }
+
+  resetValues(){
+    console.log("called resetValues");
+    console.log(this.currentuser);
+    this.getcurrentuser().then((currentuser) => {
+      console.log("currentuser in resetValues");
+      if(currentuser!=null)
+        this.currentuser = currentuser
+        console.log(this.currentuser);
+
+      }
+    );
+    console.log(this.currentuser);
+    if(this.currentuser.username !=""){
+      this.storage.get(this.currentuser.username).then((cart) => {
+        this.cart = cart == null ? [] : cart;
+        console.log('cart in constructor', this.cart);
+
+      });
+    }
   }
 
   adduser(user:User){
@@ -54,12 +71,13 @@ export class DataProvider {
 
     this.storage.set('allusers',this.allusers);
     this.storage.set('currentuser',user);
+    this.currentuser = user;
     //console.log(this.storage.get('allusers'));
 
   }
 
   addItems(item:Item){
-    console.log("called addItems");
+    console.log("called addItems!!");
     console.log(this.items);
     this.items.push(item);
     this.storage.set('items',this.items);
@@ -83,31 +101,45 @@ export class DataProvider {
   }
 
 
+
   setcurrentuser(user){
     this.storage.set('currentuser',user);
+    this.currentuser = user;
   }
 
   getcurrentuser(){
     console.log("called currentuser");
     return this.storage.get('currentuser').then((currentuser) => {
+      this.currentuser = currentuser;
       return currentuser;
     });
   }
 
   addIteminCart(item){
-    console.log("called addItems");
-    console.log(this.items);
+
+    console.log("push item to cart");
+    console.log(this.cart);
+    console.log("checkkkkkkkkkkkkk"+this.currentuser.username);
+
     this.cart.push(item);
-    this.storage.set('cart',this.cart);
+    console.log(this.cart);
+    this.storage.set(this.currentuser.username,this.cart);
+    //this.getCart().then((cart) => {
+    //  console.log("ssssss");
+    //  console.log(cart)
+    //  console.log("eeeeeeeee");
+
+    //});
   }
 
   removeIteminCart(item){
     this.cart.splice(this.cart.indexOf(item), 1 );
-    this.storage.set('cart',this.cart);
+    this.storage.set(this.currentuser.username,this.cart);
   }
 
   logout(){
     this.storage.remove('currentuser');
+
   }
 
   getuserinfo(username, password){
@@ -127,7 +159,10 @@ export class DataProvider {
 
   getCart(){
     console.log("called getCart");
-    return this.storage.get('cart').then((cart) => {
+    console.log(this.currentuser);
+    console.log("called getCart");
+
+    return this.storage.get(this.currentuser.username).then((cart) => {
       return cart;
     });
   }

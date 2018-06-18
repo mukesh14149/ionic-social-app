@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
-import { User } from '../../app/model/user';
 import { WelcomePage } from '../welcome/welcome';
 import { Item } from '../../app/model/item';
-import { ProfilePage } from '../profile/profile';
 
 @Component({
   selector: 'page-home',
@@ -15,36 +13,33 @@ import { ProfilePage } from '../profile/profile';
 export class HomePage {
   currentuser = {};
   items: Item[] = [];
-  cart = [];
+  cart :Item[] = [];
   cartflag = new Map();
   cartlength = 0;
   constructor(private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController) {
+    this.cart = [];
 
     this.getItems();
-    this.dataprovider.getCart().then((cart) => {
-      this.cart = cart
-      console.log("Here is Cart");
-      console.log(this.cart);
-      if(cart!=null)
-      this.cartlength = this.cart.length;
-    //  console.log(this.cartflag.length+"ssss"+this.cart.length);
-      this.updatecartflag();
-    });
-
-
+    this.dataprovider.resetValues();
   }
+
 
 
   ionViewWillEnter(){
     this.menu.enable(true);
     console.log("In homepage");
+    this.navCtrl.popToRoot();
     this.dataprovider.getcurrentuser().then((currentuser) => this.OnCheck(currentuser));
   }
 
   updatecartflag(){
     console.log("In updatecartflag");
-
-    if(this.cart!=null){
+    console.log(this.cart.length);
+    if(this.items!=null){
+      for(let i=0;i<this.items.length;i++)
+        this.cartflag.set(this.items[i].itemname,false);
+    }
+    if(this.cart.length!=0){
       for(let i=0;i<this.cart.length;i++)
       {
           this.cartflag.set(this.cart[i].itemname,true);
@@ -61,6 +56,24 @@ export class HomePage {
     console.log(currentuser);
     if(currentuser==null){
       this.navCtrl.push(WelcomePage);
+    }else{
+      this.dataprovider.getCart().then((cart) => {
+        console.log("Here is Cart");
+        console.log(this.cart);
+        if(cart!= null)
+          this.cart = cart
+        else
+          this.cart = []
+
+        if(cart!=null)
+        this.cartlength = this.cart.length;
+        else
+          this.cartlength = 0;
+      //  console.log(this.cartflag.length+"ssss"+this.cart.length);
+      this.updatecartflag();
+
+      });
+
     }
   }
 
@@ -69,9 +82,10 @@ export class HomePage {
       console.log(this.cartflag.get(this.items[index].itemname));
       if(!this.cartflag.get(this.items[index].itemname)){
         console.log("Turn to True");
-        //console.log(this.items[index]);
+        console.log(this.items[index]);
         //console.log(this.cartflag.get(this.items[index]));
         this.dataprovider.addIteminCart(this.items[index]); //add item in db cart
+        console.log(this.items[index]);
         this.cart.push(this.items[index]); //add item in temp array cart
         this.updatecartflag();
       }else{
