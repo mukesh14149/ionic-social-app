@@ -14,21 +14,21 @@
 
 <ion-content>
   <ion-list inset>
-    <form (ngSubmit)="storeinfo()">
+    <form [formGroup]="signupForm" (ngSubmit)="storeinfo()">
       <ion-item>
-        <ion-input type="text"  [(ngModel)]="username" name="username" value="" placeholder="Username" ></ion-input>
+        <ion-input type="text"  formControlName="username" name="username" value="" placeholder="Username" ></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input type="password" [(ngModel)]="password" name="password" value="" placeholder="Password"></ion-input>
+        <ion-input type="password" formControlName="password" name="password" value="" placeholder="Password"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input  type="number" value="" [(ngModel)]="mobile" name="mobile" placeholder="Mobile No." ></ion-input>
+        <ion-input  type="number" value="" formControlName="mobile" name="mobile" placeholder="Mobile No." ></ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block type="submit">Sign Up</button>
+        <button ion-button color="primary" block type="submit" [disabled]="!signupForm.valid">Sign Up</button>
       </div>
     </form>
 

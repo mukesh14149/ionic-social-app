@@ -8,6 +8,7 @@ import { WelcomePage } from '../pages/welcome/welcome'
 import { DataProvider } from '../providers/data/data';
 import { ProfilePage } from '../pages/profile/profile';
 
+
 @Component({
   templateUrl: 'app.html'
 })

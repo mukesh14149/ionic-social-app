@@ -3,6 +3,11 @@ import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angul
 import { DataProvider } from '../../providers/data/data';
 import { HomePage } from '../home/home';
 
+import { FormGroup, FormControl, Validators, FormBuilder }
+from '@angular/forms';
+
+
+
 /**
  * Generated class for the SignupPage page.
  *
@@ -18,17 +23,30 @@ import { HomePage } from '../home/home';
 export class SignupPage {
 
   //Getting error while passing as object
-  username:string;
-  mobile:number;
-  password:string;
-  constructor(private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {}
+  signupForm:FormGroup;
+  username = new FormControl("", Validators.required);
+  password =  new FormControl("", [Validators.required, Validators.minLength(8)]);
+  mobile = new FormControl("", [Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
+
+
+  constructor(private fb:FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.createForm();
+  }
 
    ionViewWillEnter(){
      this.menu.enable(false);
    }
 
+   createForm() {
+       this.signupForm = this.fb.group({
+         "username": this.username,
+          "password" : this.password,
+          "mobile" : this.mobile,
+       });
+     }
+
   storeinfo(){
-    this.dataprovider.adduser({username:this.username,password:this.password,mobile:this.mobile});
+    this.dataprovider.adduser({username:this.username.value,password:this.password.value,mobile:this.mobile.value});
     this.navCtrl.push(HomePage);
   }
 

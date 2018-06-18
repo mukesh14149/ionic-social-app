@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angul
 import { DataProvider } from '../../providers/data/data';
 import { HomePage } from '../home/home';
 
+import { FormGroup, FormControl, Validators, FormBuilder }
+from '@angular/forms';
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -17,10 +20,23 @@ import { HomePage } from '../home/home';
 })
 export class LoginPage {
   user = {};
-  username:string;
-  password:string;
+  //username:string;
+  //password:string;
+  loginForm:FormGroup;
+  username = new FormControl("", Validators.required);
+  password =  new FormControl("", [Validators.required, Validators.minLength(8)]);
 
-  constructor(private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
+
+
+constructor(private fb: FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
+  this.createForm();
+}
+
+createForm() {
+    this.loginForm = this.fb.group({
+      "username": this.username,
+       "password" : this.password,
+    });
   }
 
   ionViewWillEnter() {
@@ -31,13 +47,13 @@ export class LoginPage {
 
 
   checkinfo(){
-      this.user = this.dataprovider.getuserinfo(this.username, this.password);
-      console.log(this.user);
+      this.user = this.dataprovider.getuserinfo(this.username.value, this.password.value);
+      //console.log(this.user);
       if(this.user!=null){
         this.dataprovider.setcurrentuser(this.user);
         this.navCtrl.push(HomePage);
       }else{
-        console.log("Login Error");
+        //console.log("Login Error");
       }
   }
 }

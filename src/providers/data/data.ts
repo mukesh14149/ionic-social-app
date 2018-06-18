@@ -21,36 +21,36 @@ export class DataProvider {
   };
 
   constructor(private storage: Storage){
-    console.log("DataProvider Constructor called");
+  //  console.log("DataProvider Constructor called");
     this.storage.get('allusers').then((allusers) => {
       this.allusers = allusers == null ? [] : allusers;
-      console.log('alluser in constructor', this.allusers);
+  //    console.log('alluser in constructor', this.allusers);
 
     });
     this.storage.get('items').then((items) => {
       this.items = items == null ? [] : items;
-      console.log('items in constructor', this.items);
+  //    console.log('items in constructor', this.items);
 
     });
 
   }
 
   resetValues(){
-    console.log("called resetValues");
-    console.log(this.currentuser);
+//    console.log("called resetValues");
+  //  console.log(this.currentuser);
     this.getcurrentuser().then((currentuser) => {
-      console.log("currentuser in resetValues");
+  //    console.log("currentuser in resetValues");
       if(currentuser!=null)
         this.currentuser = currentuser
-        console.log(this.currentuser);
+    //    console.log(this.currentuser);
 
       }
     );
-    console.log(this.currentuser);
+//    console.log(this.currentuser);
     if(this.currentuser.username !=""){
       this.storage.get(this.currentuser.username).then((cart) => {
         this.cart = cart == null ? [] : cart;
-        console.log('cart in constructor', this.cart);
+    //    console.log('cart in constructor', this.cart);
 
       });
     }
@@ -59,8 +59,8 @@ export class DataProvider {
   adduser(user:User){
   //  this.storage.remove('allusers');
   //  console.log("removed key");
-    console.log("called adduser");
-    console.log(this.allusers);
+  //  console.log("called adduser");
+  //  console.log(this.allusers);
     //this.users.push(user);
     // set a key/value
     this.allusers.push(user);
@@ -77,24 +77,24 @@ export class DataProvider {
   }
 
   addItems(item:Item){
-    console.log("called addItems!!");
-    console.log(this.items);
+  //  console.log("called addItems!!");
+  //  console.log(this.items);
     this.items.push(item);
     this.storage.set('items',this.items);
   }
 
   getalluser(){
-    console.log("called getalluser");
+  //  console.log("called getalluser");
     return this.storage.get('allusers').then((allusers) => {
       this.allusers = allusers == null ? [] : allusers;
-      console.log('alluser in getalluser', this.allusers);
+  //    console.log('alluser in getalluser', this.allusers);
       return this.allusers;
     });
 
   }
 
   getallitems(){
-    console.log("called getallitems");
+//    console.log("called getallitems");
     return this.storage.get('items').then((items) => {
       return items;
     });
@@ -108,7 +108,7 @@ export class DataProvider {
   }
 
   getcurrentuser(){
-    console.log("called currentuser");
+  //  console.log("called currentuser");
     return this.storage.get('currentuser').then((currentuser) => {
       this.currentuser = currentuser;
       return currentuser;
@@ -117,9 +117,9 @@ export class DataProvider {
 
   addIteminCart(item){
 
-    console.log("push item to cart");
-    console.log(this.cart);
-    console.log("checkkkkkkkkkkkkk"+this.currentuser.username);
+  //  console.log("push item to cart");
+  //  console.log(this.cart);
+  //  console.log("checkkkkkkkkkkkkk"+this.currentuser.username);
 
     this.cart.push(item);
     console.log(this.cart);
@@ -143,11 +143,11 @@ export class DataProvider {
   }
 
   getuserinfo(username, password){
-      console.log("called getuserinfo");
+  //    console.log("called getuserinfo");
       for(let i=0;i<this.allusers.length;i++)
       {
         if(this.allusers[i].username == username && this.allusers[i].password == password){
-            console.log(this.allusers[i].username);
+    //        console.log(this.allusers[i].username);
             return this.allusers[i];
         }
 
@@ -158,9 +158,9 @@ export class DataProvider {
 
 
   getCart(){
-    console.log("called getCart");
-    console.log(this.currentuser);
-    console.log("called getCart");
+  //  console.log("called getCart");
+  //  console.log(this.currentuser);
+  //  console.log("called getCart");
 
     return this.storage.get(this.currentuser.username).then((cart) => {
       return cart;
