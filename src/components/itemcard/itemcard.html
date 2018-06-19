@@ -1,0 +1,12 @@
+<ion-card   class="ion-card">
+    <img src="assets/imgs/images.jpeg" class="imgblock"/>
+    <ion-card-content>
+        <div class="card-title">{{itemname}}</div>
+        <div *ngIf="flag==true">
+            <button ion-button block (click)="click()" class="card-subtitle" >Remove from cart</button>
+          </div>
+          <div *ngIf="flag==false">
+            <button ion-button block (click)="click()" class="card-subtitle" >Add to cart</button>
+          </div>
+    </ion-card-content>
+</ion-card>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
 import { HomePage } from '../home/home';
 
@@ -26,7 +26,7 @@ export class SignupPage {
   signupForm:FormGroup;
 
 
-  constructor(private fb:FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private alertCtrl:AlertController,private fb:FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.createForm();
   }
 
@@ -42,11 +42,22 @@ export class SignupPage {
        });
      }
 
+  presentAlert() {
+       let alert = this.alertCtrl.create({
+         title: 'Welcome '+this.signupForm.get('username').value,
+         subTitle: 'Some text',
+         buttons: ['Ok']
+       });
+       alert.present();
+    }
+
   storeinfo(){
     console.log(this.signupForm.get('username').value)
     this.dataprovider.adduser({username:this.signupForm.get('username').value,
     password:this.signupForm.get('password').value,mobile:this.signupForm.get('mobile').value});
     this.navCtrl.push(HomePage);
+    this.presentAlert();
+
   }
 
 

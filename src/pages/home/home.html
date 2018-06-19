@@ -14,20 +14,8 @@
 
 <ion-content padding class="card-background-page">
 <ion-list class="itemlist">
-    <ion-card  *ngFor="let item of items; let i=index" class="ion-card">
-        <img src="assets/imgs/images.jpeg" class="imgblock"/>
-        <ion-card-content>
-            <div class="card-title">{{item.itemname}}</div>
-          <div *ngIf="cartflag.get(item.itemname)==true">
-            <button ion-button block (click)="changeCart(i)" class="card-subtitle" >Remove from cart</button>
-          </div>
-          <div *ngIf="cartflag.get(item.itemname)==false">
-            <button ion-button block (click)="changeCart(i)" class="card-subtitle" >Add to cart</button>
-          </div>
-        </ion-card-content>
-    </ion-card>
-
-  </ion-list>
+  <itemcard *ngFor="let item of items; let i=index" [flag]="cartflag.get(item.itemname)" [itemname]="item.itemname" [index]="i" (callfunction)="changeCart($event)"></itemcard>
+</ion-list>
 
 
 </ion-content>

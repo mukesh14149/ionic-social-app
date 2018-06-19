@@ -17,9 +17,7 @@ import { MenuController, ViewController } from 'ionic-angular';
   templateUrl: 'welcome.html',
 })
 export class WelcomePage {
-
   constructor(private viewCtrl:ViewController, public menu:MenuController, public navCtrl: NavController, public navParams: NavParams) {
-
   }
 
    ionViewWillEnter() {
@@ -27,8 +25,6 @@ export class WelcomePage {
      this.viewCtrl.showBackButton(false);
 
    }
-
-
 
   onLogin(){
     //  console.log("login");
