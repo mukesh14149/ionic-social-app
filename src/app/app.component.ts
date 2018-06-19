@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController } from 'ionic-angular';
+import { Platform, NavController, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -16,7 +16,7 @@ export class MyApp {
   @ViewChild('content') nav: NavController
   rootPage:any = HomePage;
 
-  constructor(private dataprovider:DataProvider, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(private toastCtrl:ToastController,private dataprovider:DataProvider, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -43,10 +43,21 @@ export class MyApp {
   OnLogout(){
     console.log("In onlogout");
     this.dataprovider.logout();
-  //  this.rootPage = WelcomePage;
-    //this.nav.popToRoot();
+    this.
+      //  this.rootPage = WelcomePage;
+      //this.nav.popToRoot();
+      showToast('bottom');
     this.nav.push(WelcomePage);
   }
 
+  showToast(position: string) {
+    let toast = this.toastCtrl.create({
+      message: 'You are logout',
+      duration: 2000,
+      position: position
+    });
+
+    toast.present(toast);
+  }
 
 }

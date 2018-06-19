@@ -34,6 +34,11 @@
 
   </ion-list>
 
+<div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+       <div *ngIf="password?.errors">Minimum length of password is 8.</div>
+</div>
 
-
+<div *ngIf="mobile?.invalid && (mobile?.dirty || mobile?.touched)">
+    <div *ngIf="mobile?.errors">Mobile number should be a length of 10.</div>
+</div>
 </ion-content>

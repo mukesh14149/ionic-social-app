@@ -23,10 +23,6 @@ export class LoginPage {
   //username:string;
   //password:string;
   loginForm:FormGroup;
-  username = new FormControl("", Validators.required);
-  password =  new FormControl("", [Validators.required, Validators.minLength(8)]);
-
-
 
 constructor(private fb: FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
   this.createForm();
@@ -34,8 +30,8 @@ constructor(private fb: FormBuilder, private menu:MenuController, private datapr
 
 createForm() {
     this.loginForm = this.fb.group({
-      "username": this.username,
-       "password" : this.password,
+      username: ["", Validators.required],
+      password : ["", [Validators.required, Validators.minLength(8)]],
     });
   }
 
@@ -47,7 +43,7 @@ createForm() {
 
 
   checkinfo(){
-      this.user = this.dataprovider.getuserinfo(this.username.value, this.password.value);
+      this.user = this.dataprovider.getuserinfo(this.loginForm.get('username').value, this.loginForm.get('password').value);
       //console.log(this.user);
       if(this.user!=null){
         this.dataprovider.setcurrentuser(this.user);

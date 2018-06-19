@@ -24,9 +24,6 @@ export class SignupPage {
 
   //Getting error while passing as object
   signupForm:FormGroup;
-  username = new FormControl("", Validators.required);
-  password =  new FormControl("", [Validators.required, Validators.minLength(8)]);
-  mobile = new FormControl("", [Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
 
 
   constructor(private fb:FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
@@ -39,14 +36,16 @@ export class SignupPage {
 
    createForm() {
        this.signupForm = this.fb.group({
-         "username": this.username,
-          "password" : this.password,
-          "mobile" : this.mobile,
+         username: ['', Validators.required ],
+         password : ["", [Validators.required, Validators.minLength(8)]],
+         mobile : ["", [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
        });
      }
 
   storeinfo(){
-    this.dataprovider.adduser({username:this.username.value,password:this.password.value,mobile:this.mobile.value});
+    console.log(this.signupForm.get('username').value)
+    this.dataprovider.adduser({username:this.signupForm.get('username').value,
+    password:this.signupForm.get('password').value,mobile:this.signupForm.get('mobile').value});
     this.navCtrl.push(HomePage);
   }
 

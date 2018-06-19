@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController,ViewController } from 'ionic-angular';
+import { NavController, MenuController,ViewController, AlertController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
 import { WelcomePage } from '../welcome/welcome';
 import { Item } from '../../app/model/item';
+import { User } from '../../app/model/user';
 
 @Component({
   selector: 'page-home',
@@ -11,18 +12,28 @@ import { Item } from '../../app/model/item';
 
 
 export class HomePage {
-  currentuser = {};
+  currentuser:User;
   items: Item[] = [];
   cart :Item[] = [];
   cartflag = new Map();
   cartlength = 0;
-  constructor(private menu:MenuController, private viewCtrl:ViewController,private dataprovider: DataProvider, public navCtrl: NavController) {
+  constructor(private alertCtrl:AlertController,private menu:MenuController, private viewCtrl:ViewController,private dataprovider: DataProvider, public navCtrl: NavController) {
     console.log("In constructor")
     this.cart = [];
     this.getItems();
     this.dataprovider.resetValues();
   }
 
+  presentAlert() {
+    console.log(this.currentuser);
+
+    let alert = this.alertCtrl.create({
+      title: 'Welcome '+this.currentuser.username,
+      subTitle: 'What to Write here',
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
 
 
   ionViewWillEnter(){
@@ -59,6 +70,8 @@ export class HomePage {
     if(currentuser==null){
       this.navCtrl.push(WelcomePage);
     }else{
+      this.currentuser = currentuser;
+      this.presentAlert();
       this.dataprovider.getCart().then((cart) => {
         //console.log("Here is Cart");
         //console.log(this.cart);
