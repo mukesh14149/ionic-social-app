@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { SignupPage } from '../signup/signup';
 import { MenuController, ViewController } from 'ionic-angular';
+import { HTTP } from '@ionic-native/http';
 
 /**
  * Generated class for the WelcomePage page.
@@ -17,7 +18,7 @@ import { MenuController, ViewController } from 'ionic-angular';
   templateUrl: 'welcome.html',
 })
 export class WelcomePage {
-  constructor(private viewCtrl:ViewController, public menu:MenuController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private http: HTTP,private viewCtrl:ViewController, public menu:MenuController, public navCtrl: NavController, public navParams: NavParams) {
   }
 
    ionViewWillEnter() {
@@ -25,7 +26,33 @@ export class WelcomePage {
      this.viewCtrl.showBackButton(false);
 
    }
+  tempclick(){
+    let header = new Headers();
+    header.append( 'Content-Type','application/json' );
+    let body = {
+      user: "Mukesh"
+    };
+    console.log("{ 'Content-Type' : 'application/json'}");
+    this.http.post('http://localhost:8080/login',body,{}).then(data => {
+    console.log(data.data);
+  })
 
+  //        this.http.get('http://localhost:8080', {}, {})
+    //    .then(data => {
+
+      //    console.log(data.status);
+          //console.log(data.data); // data received by server
+        //  console.log(data.headers);
+
+      //  })
+      //  .catch(error => {
+
+        //  console.log(error.status);
+        //  console.log(error.error); // error message as string
+        //  console.log(error.headers);
+
+      //  });
+  }
   onLogin(){
     //  console.log("login");
 

@@ -14,6 +14,8 @@ import { DataProvider } from '../providers/data/data';
 import { IonicStorageModule } from '@ionic/storage';
 import {ReactiveFormsModule} from "@angular/forms";
 import { ItemcardComponent } from '../components/itemcard/itemcard';
+import { HTTP } from '@ionic-native/http';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +47,7 @@ import { ItemcardComponent } from '../components/itemcard/itemcard';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
-
+    HTTP
   ]
 })
 export class AppModule {

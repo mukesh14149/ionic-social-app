@@ -9,13 +9,11 @@ import { User } from '../../app/model/user';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-
-
-export class HomePage {
-  items: Item[] = [];
-  cart :Item[] = [];
-  cartflag = new Map();
-  cartlength = 0;
+  export class HomePage {
+  private items: Item[] = [];
+  private cart :Item[] = [];
+  private cartflag = new Map();
+  private cartlength = 0;
   constructor(private menu:MenuController, private viewCtrl:ViewController,private dataprovider: DataProvider, public navCtrl: NavController) {
     console.log("In constructor")
     this.cart = [];
@@ -53,8 +51,9 @@ export class HomePage {
 
   OnCheck(currentuser){
     console.log("OnCheck");
-  //  console.log(currentuser);
-    if(currentuser==null){
+    console.log(JSON.stringify(currentuser));
+    if(JSON.stringify(currentuser) == JSON.stringify({})){
+      console.log("Wrong user");
       this.navCtrl.push(WelcomePage);
     }else{
       this.dataprovider.getCart().then((cart) => {

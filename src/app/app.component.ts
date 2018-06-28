@@ -27,6 +27,7 @@ export class MyApp {
 
 
   addTempItems(){
+    console.log("Start adding items");
     this.dataprovider.addItems({ itemname:"item1", imgsrc:"img1"});
     this.dataprovider.addItems({ itemname:"item2", imgsrc:"img2"});
     this.dataprovider.addItems({ itemname:"item3", imgsrc:"img3"});

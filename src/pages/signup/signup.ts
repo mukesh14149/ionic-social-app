@@ -24,8 +24,9 @@ export class SignupPage {
 
   //Getting error while passing as object
   signupForm:FormGroup;
-
-
+  username;
+  password=null;
+  mobile;
   constructor(private alertCtrl:AlertController,private fb:FormBuilder, private menu:MenuController, private dataprovider: DataProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.createForm();
   }
@@ -39,7 +40,11 @@ export class SignupPage {
          username: ['', Validators.required ],
          password : ["", [Validators.required, Validators.minLength(8)]],
          mobile : ["", [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+
        });
+       console.log("sssssssss");
+       console.log(this.signupForm.get('password').value);
+       this.password = this.signupForm.get('password').value;
      }
 
   presentAlert() {
@@ -57,7 +62,6 @@ export class SignupPage {
     password:this.signupForm.get('password').value,mobile:this.signupForm.get('mobile').value});
     this.navCtrl.push(HomePage);
     this.presentAlert();
-
   }
 
 
