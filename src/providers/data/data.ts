@@ -14,7 +14,7 @@ import { HTTP } from '@ionic-native/http';
 export class DataProvider {
   private allusers:User[] = [];
   private items:Item[] = [];
-  private cart:Item[] = [];
+  public cart:Item[] = [];
   private currentuser:User = {
     username: "",
     password:"",
@@ -26,7 +26,7 @@ export class DataProvider {
     this.getalluser().then((allusers) => {
       this.allusers = allusers == null ? [] : allusers;
   //    console.log('alluser in constructor', this.allusers);
-    });
+});this.cart
 
     this.getallitems().then((items) => {
       this.items = items == null ? [] : items;
@@ -78,7 +78,6 @@ export class DataProvider {
     //this.users.push(user);
     // set a key/value
     this.allusers.push(user);
-    this.setcurrentuser(user);
 
     //console.log(this.allusers.length);
     //for(let i=0;i<this.allusers.length;i++)
@@ -87,12 +86,18 @@ export class DataProvider {
     let header = new Headers();
     header.append( 'Content-Type','application/json' );
     let body = {
-      "allusers": JSON.stringify(this.allusers)
+      "newuser": JSON.stringify(user)
     };
     console.log("{ 'Content-Type' : 'application/json'}");
     this.http.post('http://localhost:8080/setAllUsers',body,{}).then(data =>
     {
           console.log("set alluser");
+          if(data.data == "Error"){
+              this.logout();
+          }else{
+            this.setcurrentuser(user);
+
+          }
           console.log(data.data);
 
     });
@@ -183,6 +188,8 @@ export class DataProvider {
     console.log("{ 'Content-Type' : 'application/json'}");
     return this.http.post('http://localhost:8080/getCurrentUser',body,{}).then(data =>
     {
+        if(data.data.length ==0)
+           return null;
         console.log(JSON.parse(data.data));
         return JSON.parse(data.data);
     });
@@ -198,17 +205,14 @@ export class DataProvider {
     console.log("push item to cart");
     console.log(this.cart);
     console.log(item);
-    //this.cart.push(item);
+  //  this.cart.push(item);
     console.log(this.cart);
     //this.storage.set(this.currentuser.username,this.cart);
-
-    let header = new Headers();
-    header.append( 'Content-Type','application/json' );
     let body = {
         "username": this.currentuser.username,
-        "cartitem": JSON.stringify(this.cart)
+        "itemname": item
     };
-    console.log("{ 'Content-Type' : 'application/json'}");
+    //console.log(body.cartitem);
     this.http.post('http://localhost:8080/setItemsinCart',body,{}).then(data =>
     {
         console.log("set additemincart");
@@ -227,16 +231,16 @@ export class DataProvider {
   removeIteminCart(item){
     console.log("called remove itemincart");
     console.log(this.cart);
-    this.cart.splice(this.cart.indexOf(item), 1 );
+  //  this.cart.splice(this.cart.indexOf(item), 1 );
     //this.storage.set(this.currentuser.username,this.cart);
     let header = new Headers();
     header.append( 'Content-Type','application/json' );
     let body = {
         "username": this.currentuser.username,
-        "cartitem": JSON.stringify(this.cart)
+        "itemname": item
     };
     console.log("{ 'Content-Type' : 'application/json'}");
-    this.http.post('http://localhost:8080/setItemsinCart',body,{}).then(data =>
+    this.http.post('http://localhost:8080/removeIteminCart',body,{}).then(data =>
     {
         console.log("set additemincart");
         console.log(data.data);
@@ -254,7 +258,7 @@ export class DataProvider {
     };
     console.log(body);
     console.log("{ 'Content-Type' : 'application/json'}");
-    this.http.post('http://localhost:8080/setCurrentUser',body,{}).then(data =>
+    this.http.post('http://localhost:8080/removeCurrentUser',body,{}).then(data =>
     {
         console.log("set logout")
         console.log(data.data);
@@ -265,16 +269,37 @@ export class DataProvider {
 
   getuserinfo(username, password){
       console.log("called getuserinfo");
-      console.log(this.allusers);
-      for(let i=0;i<this.allusers.length;i++)
+      let header = new Headers();
+      header.append( 'Content-Type','application/json' );
+      let body = {
+          "username": username,
+          "password": password
+      };
+      console.log("{ 'Content-Type' : 'application/json'}");
+      return this.http.post('http://localhost:8080/getuserinfo',body,{}).then(data =>
       {
-        if(this.allusers[i].username == username && this.allusers[i].password == password){
-    //        console.log(this.allusers[i].username);
-            return this.allusers[i];
-        }
+          console.log("get userdata");
+          let user = JSON.parse(data.data);
+          console.log(user[0]);
+          if(data.data.length ==0)
+    	   		return null;
+    	   	else
+            return user[0];
+      });
 
-      }
-      return null;
+
+
+
+    //   console.log(this.allusers);
+    //   for(let i=0;i<this.allusers.length;i++)
+    //   {
+    //     if(this.allusers[i].username == username && this.allusers[i].password == password){
+    // //        console.log(this.allusers[i].username);
+    //         return this.allusers[i];
+    //     }
+    //
+    //   }
+    //   return null;
 
   }
 

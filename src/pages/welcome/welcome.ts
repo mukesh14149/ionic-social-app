@@ -26,33 +26,7 @@ export class WelcomePage {
      this.viewCtrl.showBackButton(false);
 
    }
-  tempclick(){
-    let header = new Headers();
-    header.append( 'Content-Type','application/json' );
-    let body = {
-      user: "Mukesh"
-    };
-    console.log("{ 'Content-Type' : 'application/json'}");
-    this.http.post('http://localhost:8080/login',body,{}).then(data => {
-    console.log(data.data);
-  })
-
-  //        this.http.get('http://localhost:8080', {}, {})
-    //    .then(data => {
-
-      //    console.log(data.status);
-          //console.log(data.data); // data received by server
-        //  console.log(data.headers);
-
-      //  })
-      //  .catch(error => {
-
-        //  console.log(error.status);
-        //  console.log(error.error); // error message as string
-        //  console.log(error.headers);
-
-      //  });
-  }
+  
   onLogin(){
     //  console.log("login");
 

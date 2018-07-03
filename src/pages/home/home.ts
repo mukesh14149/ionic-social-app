@@ -11,12 +11,12 @@ import { User } from '../../app/model/user';
 })
   export class HomePage {
   private items: Item[] = [];
-  private cart :Item[] = [];
+  private cartitem :Item[] = [];
   private cartflag = new Map();
   private cartlength = 0;
   constructor(private menu:MenuController, private viewCtrl:ViewController,private dataprovider: DataProvider, public navCtrl: NavController) {
     console.log("In constructor")
-    this.cart = [];
+    this.cartitem = [];
     this.getItems();
     this.dataprovider.resetValues();
   }
@@ -32,16 +32,18 @@ import { User } from '../../app/model/user';
 
   updatecartflag(){
     console.log("In updatecartflag");
-    //console.log(this.cart.length);
+    console.log(this.cartitem);
+
+    //console.log(this.cartitem.length);
     if(this.items!=null){
       for(let i=0;i<this.items.length;i++)
         this.cartflag.set(this.items[i].itemname,false);
     }
-    if(this.cart.length!=0){
-      for(let i=0;i<this.cart.length;i++)
+    if(this.cartitem.length!=0){
+      for(let i=0;i<this.cartitem.length;i++)
       {
-          this.cartflag.set(this.cart[i].itemname,true);
-          //console.log(this.cart[i])
+          this.cartflag.set(this.cartitem[i].itemname,true);
+          //console.log(this.cartitem[i])
           //console.log(this.cartflag);
       }
     }
@@ -51,24 +53,24 @@ import { User } from '../../app/model/user';
 
   OnCheck(currentuser){
     console.log("OnCheck");
-    console.log(JSON.stringify(currentuser));
-    if(JSON.stringify(currentuser) == JSON.stringify({})){
+    if(currentuser == null){
       console.log("Wrong user");
       this.navCtrl.push(WelcomePage);
     }else{
-      this.dataprovider.getCart().then((cart) => {
-        //console.log("Here is Cart");
-        //console.log(this.cart);
-        if(cart!= null)
-          this.cart = cart
+      this.dataprovider.getCart().then((cartitem) => {
+        console.log("Here is cartitem");
+        console.log(this.cartitem);
+        if(cartitem!= null)
+          this.cartitem = cartitem
         else
-          this.cart = []
+          this.cartitem = []
 
-        if(cart!=null)
-        this.cartlength = this.cart.length;
+        if(cartitem!=null)
+        this.cartlength = this.cartitem.length;
         else
           this.cartlength = 0;
-      //  console.log(this.cartflag.length+"ssss"+this.cart.length);
+      //  console.log(this.cartflag.length+"ssss"+this.cartitem.length);
+      console.log(this.cartitem);
       this.updatecartflag();
 
       });
@@ -82,28 +84,33 @@ import { User } from '../../app/model/user';
       if(!this.cartflag.get(this.items[index].itemname)){
         console.log("Turn to True");
         //console.log(this.items[index]);
-        //console.log(this.cartflag.get(this.items[index]));
-        this.dataprovider.addIteminCart(this.items[index]); //add item in db cart
-      //  console.log(this.items[index]);
-        this.cart.push(this.items[index]); //add item in temp array cart
+        console.log(this.cartitem);
+        this.cartitem.push(this.items[index]);
+        console.log(this.cartitem);
+
+        this.dataprovider.addIteminCart(this.items[index].itemname); //add item in db cartitem
+        console.log("tututut");
+        console.log(this.cartitem);
+
+         //add item in temp array cartitem
         this.updatecartflag();
       }else{
         console.log("Turn to False");
-      //  console.log(this.cart);
+      //  console.log(this.cartitem);
       //  console.log(this.items[index]);
-      //  console.log(this.cart[0]);
-        let temp_index = this.cart.findIndex(obj => obj['itemname'] === this.items[index].itemname);
+      //  console.log(this.cartitem[0]);
+        let temp_index = this.cartitem.findIndex(obj => obj['itemname'] === this.items[index].itemname);
 
 
-        //this.cart.indexOf(this.items[index]) get the index in cart where that particular item stored
-        this.cartflag.set(this.cart[temp_index].itemname,false);
-        this.dataprovider.removeIteminCart(this.items[index]);  //remove item from db
-      //  console.log(this.cart);
-        this.cart.splice(temp_index, 1); //remove item from temp array cart
-      //  console.log(this.cart);
+        //this.cartitem.indexOf(this.items[index]) get the index in cartitem where that particular item stored
+        this.cartflag.set(this.cartitem[temp_index].itemname,false);
+        this.dataprovider.removeIteminCart(this.items[index].itemname);  //remove item from db
+      //  console.log(this.cartitem);
+        this.cartitem.splice(temp_index, 1); //remove item from temp array cartitem
+      //  console.log(this.cartitem);
         this.updatecartflag();
       }
-      this.cartlength = this.cart.length;
+      this.cartlength = this.cartitem.length;
     //  console.log("cartlenght"+this.cartlength);
   }
 

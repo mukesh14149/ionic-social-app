@@ -19,7 +19,6 @@ from '@angular/forms';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  user = {};
   //username:string;
   //password:string;
   loginForm:FormGroup;
@@ -43,13 +42,16 @@ createForm() {
 
 
   checkinfo(){
-      this.user = this.dataprovider.getuserinfo(this.loginForm.get('username').value, this.loginForm.get('password').value);
-      //console.log(this.user);
-      if(this.user!=null){
-        this.dataprovider.setcurrentuser(this.user);
-        this.navCtrl.push(HomePage);
-      }else{
-        //console.log("Login Error");
-      }
+      this.dataprovider.getuserinfo(this.loginForm.get('username').value, this.loginForm.get('password').value).then((data) =>{
+          console.log("Inffoo checking");
+          console.log(data);
+          if(data!=null){
+            this.dataprovider.setcurrentuser(data);
+            this.navCtrl.push(HomePage);
+          }else{
+            console.log("Login Error");
+          }
+      });
+
   }
 }
