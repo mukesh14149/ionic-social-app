@@ -23,8 +23,6 @@ export class ProfilePage {
     this.dataprovider.getcurrentuser().then((currentuser) => {
       this.currentuser = currentuser;
       console.log(this.currentuser);
-
-
     });
   }
 

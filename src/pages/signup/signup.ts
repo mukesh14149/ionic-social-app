@@ -58,8 +58,9 @@ export class SignupPage {
 
   storeinfo(){
     console.log(this.signupForm.get('username').value)
-    this.dataprovider.adduser({username:this.signupForm.get('username').value,
-    password:this.signupForm.get('password').value,mobile:this.signupForm.get('mobile').value});
+    this.dataprovider.adduser({
+      username:this.signupForm.get('username').value,
+      password:this.signupForm.get('password').value,mobile:this.signupForm.get('mobile').value});
     this.navCtrl.push(HomePage);
     this.presentAlert();
   }
